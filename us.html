@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Something I Never Properly Did</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(#0f1c2e, #1f2f46);
+      font-family: 'Inter', sans-serif;
+      color: #f5f5f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow-x: hidden;
+    }
+
+    .container {
+      max-width: 700px;
+      padding: 40px 20px;
+      position: relative;
+      z-index: 2;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.4rem;
+      margin-bottom: 30px;
+    }
+
+    p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      margin-bottom: 22px;
+      color: #eaeaea;
+    }
+
+    .question {
+      font-size: 1.3rem;
+      margin-top: 30px;
+    }
+
+    .buttons {
+      margin-top: 30px;
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      background: #f0e6d2;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 30px;
+      padding: 12px 26px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      background: #fff2dc;
+    }
+
+    /* ---------- POPUP MODAL ---------- */
+
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.55);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 3;
+    }
+
+    .modal {
+      background: rgba(20, 30, 50, 0.95);
+      border-radius: 20px;
+      padding: 40px 30px;
+      max-width: 500px;
+      width: 90%;
+      animation: pop 0.6s ease forwards;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+
+    .modal h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+
+    .modal p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: #f0f0f0;
+    }
+
+    .close {
+      margin-top: 25px;
+      background: transparent;
+      color: #f0e6d2;
+      border: 1px solid #f0e6d2;
+      border-radius: 20px;
+      padding: 8px 20px;
+      cursor: pointer;
+    }
+
+    @keyframes pop {
+      from {
+        transform: scale(0.7);
+        opacity: 0;
+      }
+      to {
+        transform: scale(1);
+        opacity: 1;
+      }
+    }
+
+    /* Snow */
+    canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+<canvas id="snow"></canvas>
+
+<div class="container">
+  <h1>Merry Christmas My Love</h1>
+
+  <p>
+    We’ve shared time, laughter, comfort, and silence.<br>
+    We’ve been <em>us</em> in every way that mattered.<br><br>
+    Except one.
+  </p>
+
+  <p>
+    I never properly asked you out.<br>
+    because i didn't get the chance to.<br>
+    but I will do it right today.
+  </p>
+
+  <p>
+    But some moments deserve to be said out loud,<br>
+    not just lived quietly.
+  </p>
+
+  <p class="question">
+    So here I am, finally doing it right.<br><br>
+    <strong>Will you be my girl frind, my life partner, The mother of my kids and grow old together with me?</strong>
+  </p>
+
+  <div class="buttons">
+    <button onclick="openModal()">💛 Yes, I’d love that</button>
+    <button onclick="openModal()">✨ I already was, but yes</button>
+  </div>
+</div>
+
+<!-- POPUP -->
+<div class="overlay" id="overlay">
+  <div class="modal">
+    <h2>🎄 Congratulations</h2>
+    <p>
+      Under falling snow and quiet moments,<br>
+      this became officially <strong>us</strong>.<br><br>
+      Properly asked.<br>
+      Properly chosen.
+    </p>
+    <button class="close" onclick="closeModal()">Close</button>
+  </div>
+</div>
+
+<script>
+  function openModal() {
+    document.getElementById('overlay').style.display = 'flex';
+  }
+
+  function closeModal() {
+    document.getElementById('overlay').style.display = 'none';
+  }
+
+  /* Snow animation */
+  const canvas = document.getElementById('snow');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+
+  const flakes = [];
+  for (let i = 0; i < 120; i++) {
+    flakes.push({
+      x: Math.random() * w,
+      y: Math.random() * h,
+      r: Math.random() * 3 + 1,
+      d: Math.random() + 1
+    });
+  }
+
+  let angle = 0;
+  function drawSnow() {
+    ctx.clearRect(0, 0, w, h);
+    ctx.fillStyle = "rgba(255,255,255,0.6)";
+    ctx.beginPath();
+    flakes.forEach(f => {
+      ctx.moveTo(f.x, f.y);
+      ctx.arc(f.x, f.y, f.r, 0, Math.PI * 2);
+    });
+    ctx.fill();
+
+    angle += 0.01;
+    flakes.forEach(f => {
+      f.y += Math.pow(f.d, 2) + 0.5;
+      f.x += Math.sin(angle) * 0.5;
+      if (f.y > h) {
+        f.y = 0;
+        f.x = Math.random() * w;
+      }
+    });
+  }
+
+  setInterval(drawSnow, 33);
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+  });
+</script>
+
+</body>
+</html>
